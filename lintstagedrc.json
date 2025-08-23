@@ -1,0 +1,3 @@
+{
+  "*.tx?(x)": ["eslint --fix", "prettier --write"]
+}
