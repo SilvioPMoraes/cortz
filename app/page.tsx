@@ -1,6 +1,5 @@
 import { Button } from "@/app/_components/ui/button"
-const tes = "teste"
-const tes2 = "test2e"
+
 export default function Home() {
   return (
     <>
