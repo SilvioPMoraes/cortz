@@ -1,10 +1,35 @@
-import { Button } from "@/app/_components/ui/button"
+import { Divide, SearchIcon } from "lucide-react"
+import Header from "./_components/ui/header"
+import { Input } from "./_components/ui/input"
+import { Button } from "./_components/ui/button"
+import Image from "next/image"
 
-export default function Home() {
+const Home = () => {
   return (
-    <>
-      <h1 className="md-5 bg-red-900 text-red-300"> ola </h1>
-      <Button>teste</Button>
-    </>
+    <div>
+      <Header />
+      <div className="p-5">
+        <h2 className="text-xl font-bold">Olá, Silvio!</h2>
+        <p>Segunda-feira, 25 de agosto.</p>
+
+        <div className="mt-6 flex items-center gap-2">
+          <Input placeholder="faça sua busca..."></Input>
+          <Button>
+            <SearchIcon />
+          </Button>
+        </div>
+
+        <div className="relative mt-6 h-[150px] w-full">
+          <Image
+            alt="Agende nos melhores"
+            src="/banner-01.png"
+            fill
+            className="rounded-xl object-cover"
+          />
+        </div>
+      </div>
+    </div>
   )
 }
+
+export default Home
