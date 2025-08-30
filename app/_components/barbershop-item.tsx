@@ -3,10 +3,11 @@ import { StarIcon } from "lucide-react"
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
 import Image from "next/image"
+import Link from "next/link"
 
-interface BarbershopItemProps {
-  barbershop: Barbershop
-}
+//interface BarbershopItemProps {
+//  barbershop: Barbershop
+//}
 //const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
 const BarbershopItem = ({ barbershop }) => {
   return (
@@ -35,8 +36,8 @@ const BarbershopItem = ({ barbershop }) => {
           <p className="truncate text-sm text-gray-400">
             {barbershop.endereco}
           </p>
-          <Button variant="secondary" className="mt-3 w-full">
-            Reservar
+          <Button variant="secondary" className="mt-3 w-full" asChild>
+            <Link href={`/barbershops/${barbershop.id}`}> Reservar</Link>
           </Button>
         </div>
       </CardContent>

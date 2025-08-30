@@ -16,63 +16,28 @@ const Home = () => {
   const [barbershop, setBarbershop] = useState([])
   const [barbershoppopular, setBarbershoppopular] = useState([])
 
-  //const barbershops = await fetchData()
-  //console.log(barbershops)
-
-  const dados = [
-    { id: "1", nome: "Item 1" },
-    { id: "2", nome: "Item 2" },
-  ]
-  //console.log(dados)
-  //const dados = fetchData()
-
-  // Função para buscar os dados da API
-  async function fetchData() {
+  async function Barbearias() {
     try {
-      //console.log("function fetchData")
-      //setLoading(true);
-
       const api = await createApiInstance()
-
       const authHeader = "Basic " + btoa("SysT@xi:27021970") // Substitua com suas credenciais
-
-      const data = {
-        //cpf: user.cpf,
-        //situacao: "F",
-      }
-
-      const response = await api.get("/barbearia", {
-        params: data, // Dados como parâmetros de URL
+      //const data = {
+      //  id: "0",
+      //  tipo: "T",
+      // }
+      const response = await api.get("/barbearia/0/T", {
+        // params: data, // Dados como parâmetros de URL
         headers: {
           Authorization: authHeader, // Cabeçalho de autenticação
         },
       })
-
-      //setLoading(false);
-      //setBarbershop(response.data)
-      //console.log(response.data)
+      console.log(response.data)
       setBarbershop(response.data)
-
-      //setLista( response.data );
-      //setModalText(response.data);
-      //showOkModal();
     } catch (error) {
-      //setLoading(false);
       console.log(error)
-
-      //      if (error.response?.data.error) {
-      //      setModalType('ok'); // Modal com "Sim" e "Não"
-      //    setModalText(error.response.data.error);
-      //  setModalVisible(true);
-      //    } else {
-      //setModalType('ok'); // Modal com "Sim" e "Não"
-      //setModalText("Ocorreu um erro, tente novamente mais tarde...");
-      //setModalVisible(true);;
-      //  }
     }
   }
 
-  async function BarberPupular() {
+  async function Pupulares() {
     try {
       //console.log("function fetchData")
       //setLoading(true);
@@ -81,13 +46,12 @@ const Home = () => {
 
       const authHeader = "Basic " + btoa("SysT@xi:27021970") // Substitua com suas credenciais
 
-      const data = {
-        //cpf: user.cpf,
-        //situacao: "F",
-      }
+      //const data = {
+      //  id: 0,
+      //  tipo: "P",
+      //}
 
-      const response = await api.get("/barbeariapopular", {
-        params: data, // Dados como parâmetros de URL
+      const response = await api.get("/barbearia/0/P", {
         headers: {
           Authorization: authHeader, // Cabeçalho de autenticação
         },
@@ -124,13 +88,8 @@ const Home = () => {
   //  setBarbershop(barbershops)
   //}
 
-  //getData()
-  //}, [])
-
-  fetchData()
-  BarberPupular()
-
-  console.log(barbershop)
+  Barbearias()
+  Pupulares()
 
   return (
     <div>
