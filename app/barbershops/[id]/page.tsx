@@ -6,9 +6,11 @@ import Image from "next/image"
 import { Button } from "../../_components/ui/button"
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
 import Link from "next/link"
+import ServiceItem from "../../_components/service-item"
 
 const BarbershopPage = ({ params }) => {
   const [barber, setBarber] = useState(null)
+  const [servicos, setServicos] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -18,7 +20,6 @@ const BarbershopPage = ({ params }) => {
         const authHeader = "Basic " + btoa("SysT@xi:27021970")
 
         const response = await api.get(`/barbearia/${params.id}/D`, {
-          params: { id: params.id },
           headers: { Authorization: authHeader },
         })
 
@@ -32,16 +33,38 @@ const BarbershopPage = ({ params }) => {
         setBarber(dados)
       } catch (error) {
         console.error("Erro ao buscar barbearia:", error)
-      } finally {
-        setLoading(false)
+      }
+    }
+
+    async function buscaservicos() {
+      try {
+        const api = await createApiInstance()
+        const authHeader = "Basic " + btoa("SysT@xi:27021970")
+
+        const response = await api.get(`/servico/${params.id}`, {
+          headers: { Authorization: authHeader },
+        })
+        console.log("📌 resposta dos serviços:", response.data)
+
+        const dados = Array.isArray(response.data)
+          ? response.data
+          : [response.data] // Garante que seja um array, mesmo que tenha um único serviço
+
+        setServicos(dados)
+      } catch (error) {
+        console.error("Erro ao buscar serviços da barbearia:", error)
       }
     }
 
     if (params?.id) {
       console.log("🔍 Buscando dados da barbearia:", params.id)
-      buscadados()
+
+      // Chama as duas funções de busca em paralelo
+      Promise.all([buscadados(), buscaservicos()]).finally(() =>
+        setLoading(false),
+      ) // Garantir que setLoading false seja chamado após ambas as requisições
     }
-  }, [params?.id]) // ⬅ agora o effect roda quando o ID mudar
+  }, [params?.id]) // Roda quando o ID mudar
 
   if (loading) return <p>Carregando...</p>
   if (!barber) return <p>Barbearia não encontrada</p>
@@ -79,20 +102,36 @@ const BarbershopPage = ({ params }) => {
 
       <div className="border-b border-solid p-5">
         <h1 className="font-bol mb-3 text-xl">{barber.nome}</h1>
-        <div className="mb-3 flex items-center gap-1">
+        <div className="mb-3 flex items-center gap-2">
           <MapPinIcon className="text-primary" size={18} />
           <p className="text-sm">{barber.endereco}</p>
         </div>
-        <div className="mb-2 flex items-center gap-1">
+        <div className="mb-2 flex items-center gap-2">
           <StarIcon className="fill-primary text-primary" size={18} />
           <p className="text-sm">5.0 ( 498 avaliações )</p>
         </div>
       </div>
 
-      {/* DESCRICAO */}
-      <div className="boroder-solid space-y-2 space-y-3 border-b p-5">
+      {/* DESCRIÇÃO */}
+      <div className="boroder-solid space-y-2 border-b p-5">
         <h2 className="text-xs font-bold uppercase text-gray-400">Sobre Nós</h2>
         <p className="text-justify text-sm">{barber.descricao}</p>
+      </div>
+
+      {/* SERVIÇOS */}
+      <div className="boroder-solid space-y-3 border-b p-5">
+        <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
+          Serviços
+        </h2>
+        <div className="space-y-3">
+          {servicos && servicos.length > 0 ? (
+            servicos.map((dados) => (
+              <ServiceItem key={dados.id} servico={dados} />
+            ))
+          ) : (
+            <p>Sem serviços disponíveis.</p>
+          )}
+        </div>
       </div>
     </div>
   )
