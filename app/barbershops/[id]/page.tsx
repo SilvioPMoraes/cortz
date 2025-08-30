@@ -4,9 +4,16 @@ import createApiInstance from "../../_constants/api.js"
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import { Button } from "../../_components/ui/button"
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
+import {
+  ChevronLeftIcon,
+  MapPinIcon,
+  MenuIcon,
+  SmartphoneIcon,
+  StarIcon,
+} from "lucide-react"
 import Link from "next/link"
 import ServiceItem from "../../_components/service-item"
+import PhoneItem from "../../_components/phone-item"
 
 const BarbershopPage = ({ params }) => {
   const [barber, setBarber] = useState(null)
@@ -100,6 +107,7 @@ const BarbershopPage = ({ params }) => {
         </Button>
       </div>
 
+      {/* TITULO */}
       <div className="border-b border-solid p-5">
         <h1 className="font-bol mb-3 text-xl">{barber.nome}</h1>
         <div className="mb-3 flex items-center gap-2">
@@ -131,6 +139,18 @@ const BarbershopPage = ({ params }) => {
           ) : (
             <p>Sem serviços disponíveis.</p>
           )}
+        </div>
+      </div>
+
+      {/* CONTATO */}
+      <div className="boroder-solid space-y-3 border-b p-5">
+        <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
+          Contato
+        </h2>
+
+        <div className="space-y-3 p-5">
+          <PhoneItem key={barber.telefone} phone={barber.telefone} />
+          <PhoneItem key={barber.celular} phone={barber.celular} />
         </div>
       </div>
     </div>
