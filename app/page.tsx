@@ -6,7 +6,6 @@ import { Input } from "./_components/ui/input"
 import { Button } from "./_components/ui/button"
 import createApiInstance from "./_constants/api.js"
 import Image from "next/image"
-import { Card, CardContent } from "./_components/ui/card"
 import React, { useEffect, useState } from "react"
 import BarbershopItem from "./_components/barbershop-item"
 import BookingItem from "./_components/booking-item"
@@ -155,16 +154,6 @@ const Home = () => {
           ))}
         </div>
       </div>
-
-      <footer>
-        <Card>
-          <CardContent className="px-5 py-6">
-            <p className="text-sm text-gray-400">
-              2025 Copyright <span className="font-bold">FWS Barber</span>
-            </p>
-          </CardContent>
-        </Card>
-      </footer>
     </div>
   )
 }
