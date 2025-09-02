@@ -6,7 +6,7 @@ const Footer = () => {
       <Card>
         <CardContent className="px-5 py-6">
           <p className="text-sm text-gray-400">
-            2025 Copyright <span className="font-bold">FWS Barber</span>
+            2025 Copyright <span className="font-bold">CortZ Barber</span>
           </p>
         </CardContent>
       </Card>

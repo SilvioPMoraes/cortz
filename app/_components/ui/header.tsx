@@ -18,8 +18,12 @@ import SidebarSheet from "./sidebar-sheet"
 const Header = () => {
   return (
     <Card>
-      <CardContent className="flex flex-row items-center justify-between">
-        <Image alt="FWS Barber" src="/logo.png" height={18} width={120} />
+      <CardContent className="flex flex-row items-center justify-between p-3">
+        <Image alt="FWS Barber" src="/logo.png" height={50} width={50} />
+        <h1 className="text-left text-xl font-extrabold">CortZ</h1>
+        <h3 className="text-left text-base font-light">
+          Barbershop Solution                          
+        </h3>
 
         <Sheet>
           <SheetTrigger asChild>

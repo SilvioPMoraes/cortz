@@ -1,0 +1,39 @@
+import React, { useState, useEffect } from "react"
+
+const UsuariosList = () => {
+  // Estado para armazenar os dados dos usuários e controle de erro
+  const [usuarios, setUsuarios] = useState<any[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchUsuarios = async () => {
+    setLoading(true)
+    setError(null) // Limpar qualquer erro anterior
+
+    try {
+      const response = await fetch("/api/usuario") // A URL da sua API
+      const data = await response.json() // Parseia a resposta JSON
+
+      // Verifica se a requisição foi bem-sucedida
+      if (response.ok) {
+        console.log("Usuários encontrados:", data)
+        setUsuarios(data) // Atualiza o estado com os dados dos usuários
+      } else {
+        console.error("Erro ao buscar usuários", data)
+        setError("Erro ao buscar usuários")
+      }
+    } catch (err) {
+      console.error("Erro ao acessar a API:", err)
+      setError("Erro ao acessar a API")
+    } finally {
+      setLoading(false) // Independentemente do sucesso ou falha, para de carregar
+    }
+  }
+
+  // Chama a função fetchUsuarios ao montar o componente (com array de dependência vazio)
+  useEffect(() => {
+    fetchUsuarios()
+  }, []) // Array vazio → só executa uma vez, na montagem do componente
+}
+
+export default UsuariosList

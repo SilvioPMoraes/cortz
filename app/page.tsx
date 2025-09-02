@@ -4,7 +4,6 @@ import { SearchIcon } from "lucide-react"
 import Header from "./_components/ui/header"
 import { Input } from "./_components/ui/input"
 import { Button } from "./_components/ui/button"
-import createApiInstance from "./_constants/api.js"
 import Image from "next/image"
 import React, { useEffect, useState } from "react"
 import BarbershopItem from "./_components/barbershop-item"
@@ -12,83 +11,49 @@ import BookingItem from "./_components/booking-item"
 import { quickSearchOptions } from "./_constants/search"
 
 const Home = () => {
-  const [barbershop, setBarbershop] = useState([])
-  const [barbershoppopular, setBarbershoppopular] = useState([])
+  const [servico, setServico] = useState([])
+  const [barbearia, setBarbearia] = useState([])
+  const [popular, setPopular] = useState([])
 
-  async function Barbearias() {
+  async function fechservico() {
     try {
-      const api = await createApiInstance()
-      const authHeader = "Basic " + btoa("SysT@xi:27021970") // Substitua com suas credenciais
-      //const data = {
-      //  id: "0",
-      //  tipo: "T",
-      // }
-      const response = await api.get("/barbearia/0/T", {
-        // params: data, // Dados como parâmetros de URL
-        headers: {
-          Authorization: authHeader, // Cabeçalho de autenticação
-        },
-      })
-      console.log(response.data)
-      setBarbershop(response.data)
+      const response = await fetch("/api/usuario")
+      const data = await response.json()
+      setServico(data)
+      console.log("Dados do serviço:", data)
     } catch (error) {
-      console.log(error)
+      console.log("Erro no fechservico:", error)
     }
   }
 
-  async function Pupulares() {
+  async function fechbarbearia() {
     try {
-      //console.log("function fetchData")
-      //setLoading(true);
-
-      const api = await createApiInstance()
-
-      const authHeader = "Basic " + btoa("SysT@xi:27021970") // Substitua com suas credenciais
-
-      //const data = {
-      //  id: 0,
-      //  tipo: "P",
-      //}
-
-      const response = await api.get("/barbearia/0/P", {
-        headers: {
-          Authorization: authHeader, // Cabeçalho de autenticação
-        },
-      })
-
-      //setLoading(false);
-      //setBarbershop(response.data)
-      //console.log(response.data)
-      setBarbershoppopular(response.data)
-
-      //setLista( response.data );
-      //setModalText(response.data);
-      //showOkModal();
+      const response = await fetch("/api/barbearia?tipo=T")
+      const data = await response.json()
+      setBarbearia(data)
+      console.log("Dados do fechbarbearia:", data)
     } catch (error) {
-      //setLoading(false);
-      console.log(error)
-
-      //      if (error.response?.data.error) {
-      //      setModalType('ok'); // Modal com "Sim" e "Não"
-      //    setModalText(error.response.data.error);
-      //  setModalVisible(true);
-      //    } else {
-      //setModalType('ok'); // Modal com "Sim" e "Não"
-      //setModalText("Ocorreu um erro, tente novamente mais tarde...");
-      //setModalVisible(true);;
-      //  }
+      console.log("Erro no fechbarbearia:", error)
     }
   }
 
-  // useEffect para chamar a API ao carregar a tela
-  //useEffect(() => {
-  //const getData = async () => {
-  //  const barbershops = await fetchData()
-  //  setBarbershop(barbershops)
-  //}
+  async function fechpopular() {
+    try {
+      const response = await fetch("/api/barbearia?tipo=X")
+      const data = await response.json()
+      setPopular(data)
+      console.log("Dados do fechbarbearia:", data)
+    } catch (error) {
+      console.log("Erro no fechbarbearia:", error)
+    }
+  }
 
-  Barbearias()
-  Pupulares()
+  // Chama a função fetchUsuarios ao montar o componente
+  useEffect(() => {
+    fechservico()
+    fechbarbearia()
+    fechpopular()
+  }, [])
 
   return (
     <div>
@@ -139,7 +104,7 @@ const Home = () => {
           Recomendados
         </h2>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {barbershop.map((barbershop) => (
+          {barbearia.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
@@ -149,7 +114,7 @@ const Home = () => {
           Populares
         </h2>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {barbershoppopular.map((barbershop) => (
+          {popular.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
